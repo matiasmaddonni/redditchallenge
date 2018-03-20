@@ -41,12 +41,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setBasePresenter(getBasePresenter());
-        BusProvider.register(basePresenter);
+        BusProvider.register(basePresenter.busEventListener);
     }
 
     @Override
     protected void onDestroy() {
-        BusProvider.unregister(basePresenter);
+        BusProvider.unregister(basePresenter.busEventListener);
         super.onDestroy();
     }
 

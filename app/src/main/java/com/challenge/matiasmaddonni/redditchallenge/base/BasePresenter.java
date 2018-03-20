@@ -6,6 +6,8 @@ package com.challenge.matiasmaddonni.redditchallenge.base;
 
 public abstract class BasePresenter {
 
+    public Object busEventListener;
+
     BaseModel baseModel;
     BaseView baseView;
 
@@ -20,9 +22,5 @@ public abstract class BasePresenter {
 
     public void closeWaitOverlay() {
         baseView.hideLoadingOverlay();
-    }
-
-    public void handleError(int errorCode, int internalCode, String message) {
-        //TODO: show error
     }
 }

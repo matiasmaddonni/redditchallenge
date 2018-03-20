@@ -23,6 +23,7 @@ public class HomeActivity extends BaseActivity {
                 new HomeView(this, BusProvider.getInstance()));
 
         BusProvider.register(presenter);
+        presenter.afterBusIsRegistered();
     }
 
     @Override
