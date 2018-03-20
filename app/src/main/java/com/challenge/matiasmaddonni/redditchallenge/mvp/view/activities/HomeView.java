@@ -1,5 +1,6 @@
 package com.challenge.matiasmaddonni.redditchallenge.mvp.view.activities;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import com.challenge.matiasmaddonni.redditchallenge.R;
 import com.challenge.matiasmaddonni.redditchallenge.adapters.PostAdapter;
 import com.challenge.matiasmaddonni.redditchallenge.base.BaseActivity;
 import com.challenge.matiasmaddonni.redditchallenge.base.BaseView;
+import com.challenge.matiasmaddonni.redditchallenge.common.Constants;
 import com.challenge.matiasmaddonni.redditchallenge.events.OnAfterClicked;
 import com.challenge.matiasmaddonni.redditchallenge.events.OnBeforeClicked;
 import com.challenge.matiasmaddonni.redditchallenge.events.OnPostsSwiped;
@@ -34,6 +36,18 @@ public class HomeView extends BaseView {
         refreshLayout.setOnRefreshListener(() -> refreshItems());
     }
 
+    public void saveInstanceState(Bundle outState) {
+        outState.putSerializable(Constants.REDDIT_RESPONSE, response);
+    }
+
+    public void refreshUI(Bundle savedInstanceState) {
+        response = (RedditResponse) savedInstanceState.getSerializable(Constants.REDDIT_RESPONSE);
+        mainRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new PostAdapter(getActivity(), bus, response.getData().getChildren());
+        mainRecycler.setAdapter(adapter);
+        refreshLayout.setRefreshing(false);
+    }
+
     private void refreshItems() {
         bus.post(new OnPostsSwiped());
     }
@@ -43,7 +57,7 @@ public class HomeView extends BaseView {
 
         if (adapter == null) {
             mainRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-            adapter = new PostAdapter(getActivity(), response.getData().getChildren());
+            adapter = new PostAdapter(getActivity(), bus, response.getData().getChildren());
             mainRecycler.setAdapter(adapter);
         } else {
             adapter.setPosts(response.getData().getChildren());

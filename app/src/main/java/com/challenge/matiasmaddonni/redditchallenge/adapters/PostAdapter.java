@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 
 import com.challenge.matiasmaddonni.redditchallenge.R;
 import com.challenge.matiasmaddonni.redditchallenge.adapters.viewholders.PostViewHolder;
+import com.challenge.matiasmaddonni.redditchallenge.events.OnPostClicked;
+import com.challenge.matiasmaddonni.redditchallenge.network.model.Body;
 import com.challenge.matiasmaddonni.redditchallenge.network.model.Child;
 import com.challenge.matiasmaddonni.redditchallenge.utils.DateUtils;
+import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
@@ -18,14 +21,18 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by matias.maddonni on 3/20/2018.
+ *
+ * Adapter used on Home Activity for showing the response from Reddit
  */
 
 public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
+    private Bus bus;
     private List<Child> posts;
 
-    public PostAdapter(Context context, List<Child> posts) {
+    public PostAdapter(Context context, Bus bus, List<Child> posts) {
         this.context = context;
+        this.bus = bus;
         this.posts = posts;
     }
 
@@ -58,6 +65,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             posts.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, posts.size());
+        });
+        pvh.container.setOnClickListener(v -> {
+            Body body = posts.get(position).getBody();
+            body.setRead(true);
+            notifyDataSetChanged();
+
+            bus.post(new OnPostClicked(body.getAuthor(), body.getThumbnail(), body.getTitle()));
         });
     }
 

@@ -5,29 +5,29 @@ import android.os.Bundle;
 import com.challenge.matiasmaddonni.redditchallenge.R;
 import com.challenge.matiasmaddonni.redditchallenge.base.BaseActivity;
 import com.challenge.matiasmaddonni.redditchallenge.base.BasePresenter;
-import com.challenge.matiasmaddonni.redditchallenge.mvp.model.activities.HomeModel;
-import com.challenge.matiasmaddonni.redditchallenge.mvp.presenter.activities.HomePresenter;
-import com.challenge.matiasmaddonni.redditchallenge.mvp.view.activities.HomeView;
+import com.challenge.matiasmaddonni.redditchallenge.mvp.model.activities.DescriptionModel;
+import com.challenge.matiasmaddonni.redditchallenge.mvp.presenter.activities.DescriptionPresenter;
+import com.challenge.matiasmaddonni.redditchallenge.mvp.view.activities.DescriptionView;
 import com.challenge.matiasmaddonni.redditchallenge.utils.BusProvider;
 
 
-public class HomeActivity extends BaseActivity {
+public class DescriptionActivity extends BaseActivity {
 
-    private HomePresenter presenter;
+    private DescriptionPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        presenter = new HomePresenter(new HomeModel(BusProvider.getInstance()),
-                new HomeView(this, BusProvider.getInstance()));
+        setContentView(R.layout.activity_description);
+        presenter = new DescriptionPresenter(new DescriptionModel(BusProvider.getInstance()),
+                new DescriptionView(this, BusProvider.getInstance()));
 
         BusProvider.register(presenter);
 
         if (savedInstanceState == null) {
-            presenter.afterBusIsRegistered();
+            presenter.afterBusIsRegistered(getIntent().getExtras());
         } else {
-            presenter.refreshUI(savedInstanceState);
+            presenter.afterBusIsRegistered(savedInstanceState);
         }
     }
 
@@ -47,6 +47,4 @@ public class HomeActivity extends BaseActivity {
     protected BasePresenter getBasePresenter() {
         return this.presenter;
     }
-
-
 }

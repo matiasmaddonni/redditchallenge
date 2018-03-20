@@ -2,6 +2,8 @@ package com.challenge.matiasmaddonni.redditchallenge.network;
 
 /**
  * Created by matias.maddonni on 3/20/2018.
+ *
+ * Singleton for managing the retrofit interface
  */
 
 public class ServiceManager {

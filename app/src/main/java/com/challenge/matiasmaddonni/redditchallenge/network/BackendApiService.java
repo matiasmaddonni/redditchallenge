@@ -14,6 +14,8 @@ import rx.Observable;
 
 /**
  * Created by matias.maddonni on 3/20/2018.
+ *
+ * Interface for communicating with the API REST using retrofit
  */
 
 public interface BackendApiService {

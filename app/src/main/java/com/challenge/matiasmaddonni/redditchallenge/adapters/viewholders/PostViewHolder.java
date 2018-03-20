@@ -14,6 +14,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by matias.maddonni on 3/20/2018.
+ *
+ * This ViewHolder contains all the required data to be showed
  */
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
